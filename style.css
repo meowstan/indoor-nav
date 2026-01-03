@@ -1,0 +1,92 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 300px;
+    background: #f4f4f4;
+    padding: 20px;
+    border-right: 2px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.map-container {
+    flex-grow: 1;
+    background: #e0e0e0;
+    overflow: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas-wrapper {
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.floor-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 5px;
+}
+
+.floor-controls button {
+    background: white;
+    border: 2px solid #333;
+    padding: 10px 15px;
+}
+
+.floor-controls button:hover {
+    background: #ddd;
+}
+
+/* IMPORTANT: Overlay Canvas exactly on top of the Image */
+#floorPlan {
+    display: block;
+    max-height: 90vh;
+    /* Fit to screen height */
+    width: auto;
+}
+
+#navCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: auto;
+    /* Let clicks pass through to image/wrapper */
+}
+
+/* Buttons */
+button {
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: #004d99;
+    color: white;
+}
+
+.btn-secondary {
+    background: #ccc;
+}
+
+/* Developer Tools Box  */
+.dev-box {
+    background: #333;
+    color: #0f0;
+    padding: 10px;
+    font-family: monospace;
+}

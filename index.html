@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="floorplans/favicon.png">
+
+    <title>Campus Indoor Navigation Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <div class="input-group">
+            <label>Start Location:</label>
+            <select id="startSelect">
+                <option value="">Choose...</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Destination:</label>
+            <select id="endSelect">
+                <option value="">Choose...</option>
+            </select>
+        </div>
+
+        <button onclick="calculatePath()" class="btn-primary">Find Route</button>
+        <button onclick="clearMap()" class="btn-secondary">Clear</button>
+
+        <div id="status"></div>
+
+        <!-- DEVELOPER TOOLS -->
+        <!-- 
+        <hr>
+        <div class="dev-box">
+            <p><small>Developer Tool</small></p>
+
+            
+            <p id="click-coords" style="color: yellow; font-size: 12px;">Click map...</p>
+            <hr style="border-color: #555;">
+
+            
+            <label>Test Single:</label>
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="inputX" placeholder="X" style="width: 75px;">
+                <input type="number" id="inputY" placeholder="Y" style="width: 75px;">
+                <button onclick="testCoord()">Show</button>
+            </div>
+
+            <hr style="border-color: #555;">
+
+            
+            <label>Check Multiple Nodes:</label>
+            <textarea id="bulkInput" rows="5" placeholder='Paste lines here: "117": { x: 0.2... }'
+                style="width: 100%; font-size: 10px; color: black;"></textarea>
+            <button onclick="visualizeBulk()"
+                style="width: 100%; margin-top: 5px; background: #444; color: white;">Visualize Points</button>
+        </div> 
+        -->
+        <!-- END DEVELOPER TOOLS -->
+
+    </div>
+
+    <div class="map-container">
+        <div class="floor-controls">
+            <button onclick="changeFloor(1)">Floor 1</button>
+            <button onclick="changeFloor(2)">Floor 2</button>
+            <button onclick="changeFloor(3)">Floor 3</button>
+            <button onclick="changeFloor(4)">Floor 4</button>
+            <button onclick="changeFloor(5)">Floor 5</button>
+        </div>
+
+        <div class="canvas-wrapper">
+            <!-- Default to floor 1 -->
+            <img id="floorPlan" src="floorplans/floor_1.png" alt="Building Map">
+            <canvas id="navCanvas"></canvas>
+        </div>
+    </div>
+
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
