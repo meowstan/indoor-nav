@@ -1,92 +1,392 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+* {
     margin: 0;
-    display: flex;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
     height: 100vh;
     overflow: hidden;
 }
 
-.sidebar {
-    width: 300px;
-    background: #f4f4f4;
+.container {
+    display: flex;
+    height: 100vh;
     padding: 20px;
-    border-right: 2px solid #ddd;
+    gap: 20px;
+}
+
+/* =====================
+   Sidebar Styles
+===================== */
+
+.sidebar {
+    width: 340px;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo-text h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.logo-text p {
+    font-size: 12px;
+    color: #666;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.label-icon {
+    font-size: 16px;
+}
+
+select {
+    padding: 12px 16px;
+    border: 2px solid #e5e5e5;
+    border-radius: 10px;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+select:hover {
+    border-color: #4a5568;
+}
+
+select:focus {
+    outline: none;
+    border-color: #4a5568;
+    box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1);
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+button {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(74, 85, 104, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 85, 104, 0.35);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: #f5f5f5;
+    color: #666;
+}
+
+.btn-secondary:hover {
+    background: #e5e5e5;
+}
+
+.status-box {
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    display: none;
+}
+
+.status-box.show {
+    display: block;
+}
+
+.status-box.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-box.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* =====================
+   Legend Sidebar Styles
+===================== */
+
+.legend-sidebar {
+    background: rgba(74, 85, 104, 0.08);
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid rgba(74, 85, 104, 0.1);
+    display: none;
+}
+
+.legend-sidebar.show {
+    display: block;
+}
+
+.legend-sidebar h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #444;
+}
+
+.legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.legend-line {
+    width: 30px;
+    height: 4px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.info-card {
+    background: rgba(74, 85, 104, 0.08);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: auto;
+    border: 1px solid rgba(74, 85, 104, 0.1);
+}
+
+.info-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.info-card p {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* =====================
+   Map Container Styles
+===================== */
+
+.map-wrapper {
+    flex: 1;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-header {
+    background: white;
+    padding: 16px 24px;
+    border-bottom: 2px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.floor-controls {
+    display: flex;
+    gap: 8px;
+    background: #f5f5f5;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.floor-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.floor-btn:hover {
+    background: rgba(74, 85, 104, 0.1);
+    color: #4a5568;
+}
+
+.floor-btn.active {
+    background: white;
+    color: #4a5568;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .map-container {
-    flex-grow: 1;
-    background: #e0e0e0;
+    flex: 1;
+    background: #fafafa;
     overflow: auto;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .canvas-wrapper {
     position: relative;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.floor-controls {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
-    display: flex;
-    gap: 5px;
-}
-
-.floor-controls button {
-    background: white;
-    border: 2px solid #333;
-    padding: 10px 15px;
-}
-
-.floor-controls button:hover {
-    background: #ddd;
-}
-
-/* IMPORTANT: Overlay Canvas exactly on top of the Image */
 #floorPlan {
     display: block;
-    max-height: 90vh;
-    /* Fit to screen height */
+    max-height: calc(100vh - 200px);
     width: auto;
+    border-radius: 8px;
 }
 
 #navCanvas {
     position: absolute;
     top: 0;
     left: 0;
-    pointer-events: auto;
-    /* Let clicks pass through to image/wrapper */
+    border-radius: 8px;
 }
 
-/* Buttons */
-button {
-    padding: 10px;
-    cursor: pointer;
-    border: none;
-    font-weight: bold;
+/* =====================
+   Responsive Design
+===================== */
+
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .map-wrapper {
+        height: 400px;
+    }
+    
+    .floor-controls {
+        flex-wrap: wrap;
+    }
 }
 
-.btn-primary {
-    background: #004d99;
-    color: white;
-}
-
-.btn-secondary {
-    background: #ccc;
-}
-
-/* Developer Tools Box  */
-.dev-box {
-    background: #333;
-    color: #0f0;
-    padding: 10px;
-    font-family: monospace;
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+    
+    .map-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
 }
