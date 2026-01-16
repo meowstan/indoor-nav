@@ -55,7 +55,15 @@ function populateDropdowns() {
 // Floor Switching & Pathfinding
 
 function changeFloor(floorNum) {
-    currentFloor = parseInt(floorNum); // Ensure this is a number
+    currentFloor = parseInt(floorNum);
+
+    // Update active button state - FIXED
+    document.querySelectorAll('.floor-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (parseInt(btn.getAttribute('data-floor')) === currentFloor) {
+            btn.classList.add('active');
+        }
+    });
 
     // If the image is already the correct one, just redraw the path
     if (img.getAttribute('src') === `floorplans/floor_${floorNum}.png`) {
@@ -65,18 +73,20 @@ function changeFloor(floorNum) {
         // img.onload will trigger automatically and call resizeCanvas -> drawPathOnCurrentFloor
     }
 }
-
 function calculatePath() {
     const startSelect = document.getElementById('startSelect');
     const endSelect = document.getElementById('endSelect');
     const status = document.getElementById('status');
+    const legend = document.getElementById('legendSidebar');
 
     const start = startSelect.value;
     const end = endSelect.value;
 
     // Validation: Did the user select rooms?
     if (!start || !end) {
-        alert("Please select both a Start and Destination.");
+        status.className = 'status-box show error';
+        status.innerHTML = '<strong>⚠️ Selection Required</strong><br>Please select both a Start and Destination.';
+        legend.classList.remove('show');
         return;
     }
 
@@ -85,30 +95,34 @@ function calculatePath() {
 
     // Handle "No Path Found"
     if (!globalPath || globalPath.length === 0) {
-        status.innerText = "No path found! Check graph connections (stairs/elevators).";
-        status.style.color = "red";
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear map
+        status.className = 'status-box show error';
+        status.innerHTML = '<strong>❌ No Route Found</strong><br>No path found! Check graph connections (stairs/elevators).';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        legend.classList.remove('show');
         return;
     }
 
-    // Determine Start Floor
+    // Determine Start Floor and End Floor
     const startFloor = parseInt(nodes[start].floor);
     const endFloor = parseInt(nodes[end].floor);
 
-    //  Floor Switching Logic
+    // Floor Switching Logic
     if (currentFloor !== startFloor) {
-        // If we are on the wrong floor, switch. 
         changeFloor(startFloor);
     } else {
-        // If we are on the right floor, we must draw immediately
         drawPathOnCurrentFloor();
     }
 
-    //  Update Status Text for User
+    // Show legend
+    legend.classList.add('show');
+
+    // Update Status Text for User with visual improvements
+    status.className = 'status-box show success';
+    
     if (startFloor === endFloor) {
-        status.innerText = `Route calculated. Distance: ${globalPath.length} meters on Floor ${startFloor}.`;
+        status.innerHTML = `<strong>✅ Route Found!</strong><br>Distance: ${globalPath.length} meters on Floor ${startFloor}.`;
     } else {
-        status.innerText = `Multi-floor Route: Start on Floor ${startFloor} -> Take Stairs/Elevator -> End on Floor ${endFloor}.`;
+        status.innerHTML = `<strong>✅ Multi-Floor Route Found!</strong><br>Start on Floor ${startFloor} → Take Stairs/Elevator → End on Floor ${endFloor}.<br><small>Use floor buttons above to view each level.</small>`;
     }
 }
 
@@ -217,8 +231,21 @@ function drawDot(xPct, yPct, color) {
 function clearMap() {
     globalPath = null;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    document.getElementById('status').innerText = "";
+    
+    // Clear status message
+    const status = document.getElementById('status');
+    status.classList.remove('show');
+    status.className = 'status-box';
+    
+    // Hide legend
+    const legend = document.getElementById('legendSidebar');
+    legend.classList.remove('show');
+    
+    // Clear dropdown selections - ADDED
+    document.getElementById('startSelect').value = '';
+    document.getElementById('endSelect').value = '';
 }
+
 
 //  DEVELOPER TOOLS (Coordinate Finder)
 
