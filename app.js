@@ -10,6 +10,9 @@ const ctx = canvas.getContext('2d');
 
 //  Populate dropdowns 
 populateDropdowns();
+setupSearchFilter('startSearch', 'startSelect');
+setupSearchFilter('endSearch', 'endSelect');
+setDefaultSelection('startSelect', 'startSearch', 'Lobby');
 
 // Handle Image Loading (For canvas sizing)
 img.onload = function () {
@@ -49,6 +52,64 @@ function populateDropdowns() {
             startSel.add(opt1);
             endSel.add(opt2);
         }
+    });
+}
+
+function setDefaultSelection(selectId, inputId, value) {
+    const select = document.getElementById(selectId);
+    const input = document.getElementById(inputId);
+    if (!select || !input) return;
+    if (!Array.from(select.options).some(option => option.value === value)) return;
+    select.value = value;
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function setupSearchFilter(inputId, selectId) {
+    const input = document.getElementById(inputId);
+    const select = document.getElementById(selectId);
+    if (!input || !select) return;
+
+    input.addEventListener('input', () => {
+        const term = input.value.trim().toLowerCase();
+        const options = Array.from(select.options);
+        let firstMatch = null;
+
+        options.forEach((option, index) => {
+            if (index === 0) {
+                option.hidden = false;
+                return;
+            }
+            if (!term) {
+                option.hidden = false;
+                return;
+            }
+            const textMatch = option.text.toLowerCase().includes(term);
+            const valueMatch = option.value.toLowerCase().includes(term);
+            const matches = textMatch || valueMatch;
+            option.hidden = !matches;
+            if (matches && !firstMatch) {
+                firstMatch = option;
+            }
+        });
+
+        if (!term) {
+            select.selectedIndex = 0;
+            return;
+        }
+
+        if (firstMatch) {
+            select.value = firstMatch.value;
+        }
+    });
+
+    select.addEventListener('change', () => {
+        const selected = select.options[select.selectedIndex];
+        if (!selected || select.selectedIndex === 0) {
+            input.value = '';
+            return;
+        }
+        input.value = selected.text;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
     });
 }
 
@@ -367,4 +428,3 @@ function clearMap() {
 //     ctx.lineWidth = 1;
 //     ctx.stroke();
 // }
-
