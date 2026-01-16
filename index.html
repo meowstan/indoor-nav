@@ -1,89 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="floorplans/favicon.png">
-
-    <title>Campus Indoor Navigation Prototype</title>
+    <title>Campus Indoor Navigation</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-    <div class="sidebar">
-        <h2>Navigation</h2>
-        <div class="input-group">
-            <label>Start Location:</label>
-            <select id="startSelect">
-                <option value="">Choose...</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label>Destination:</label>
-            <select id="endSelect">
-                <option value="">Choose...</option>
-            </select>
-        </div>
-
-        <button onclick="calculatePath()" class="btn-primary">Find Route</button>
-        <button onclick="clearMap()" class="btn-secondary">Clear</button>
-
-        <div id="status"></div>
-
-        <!-- DEVELOPER TOOLS -->
-        <!-- 
-        <hr>
-        <div class="dev-box">
-            <p><small>Developer Tool</small></p>
-
-            
-            <p id="click-coords" style="color: yellow; font-size: 12px;">Click map...</p>
-            <hr style="border-color: #555;">
-
-            
-            <label>Test Single:</label>
-            <div style="display: flex; gap: 5px;">
-                <input type="number" id="inputX" placeholder="X" style="width: 75px;">
-                <input type="number" id="inputY" placeholder="Y" style="width: 75px;">
-                <button onclick="testCoord()">Show</button>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">📍</div>
+                <div class="logo-text">
+                    <h1>Indoor Navigation</h1>
+                    <p>Find your way around campus</p>
+                </div>
             </div>
 
-            <hr style="border-color: #555;">
+            <div class="input-section">
+                <div class="input-group">
+                    <label>
+                        <span class="label-icon">🚩</span>
+                        Start Location
+                    </label>
+                    <select id="startSelect">
+                        <option value="">Choose your starting point...</option>
+                    </select>
+                </div>
 
-            
-            <label>Check Multiple Nodes:</label>
-            <textarea id="bulkInput" rows="5" placeholder='Paste lines here: "117": { x: 0.2... }'
-                style="width: 100%; font-size: 10px; color: black;"></textarea>
-            <button onclick="visualizeBulk()"
-                style="width: 100%; margin-top: 5px; background: #444; color: white;">Visualize Points</button>
-        </div> 
-        -->
-        <!-- END DEVELOPER TOOLS -->
+                <div class="input-group">
+                    <label>
+                        <span class="label-icon">🎯</span>
+                        Destination
+                    </label>
+                    <select id="endSelect">
+                        <option value="">Choose your destination...</option>
+                    </select>
+                </div>
 
-    </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="calculatePath()">
+                        <span>🧭</span>
+                        Find Route
+                    </button>
+                    <button class="btn-secondary" onclick="clearMap()">
+                        ✕ Clear
+                    </button>
+                </div>
+            </div>
 
-    <div class="map-container">
-        <div class="floor-controls">
-            <button onclick="changeFloor(1)">Floor 1</button>
-            <button onclick="changeFloor(2)">Floor 2</button>
-            <button onclick="changeFloor(3)">Floor 3</button>
-            <button onclick="changeFloor(4)">Floor 4</button>
-            <button onclick="changeFloor(5)">Floor 5</button>
+            <div id="status" class="status-box"></div>
+
+            <!-- Legend in Sidebar -->
+            <div class="legend-sidebar" id="legendSidebar">
+                <h4>Route Legend</h4>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #10b981;"></div>
+                    <span>Start Point</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3b82f6;"></div>
+                    <span>Destination</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f59e0b;"></div>
+                    <span>Floor Change</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background: #ef4444;"></div>
+                    <span>Your Path</span>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>💡 Quick Tip</h3>
+                <p>Select your start and destination, then click "Find Route" to see the shortest path. Use the floor buttons to view your route on different levels.</p>
+            </div>
         </div>
 
-        <div class="canvas-wrapper">
-            <!-- Default to floor 1 -->
-            <img id="floorPlan" src="floorplans/floor_1.png" alt="Building Map">
-            <canvas id="navCanvas"></canvas>
+        <!-- Map Area -->
+        <div class="map-wrapper">
+            <div class="map-header">
+                <div class="map-title">Building Floor Plan</div>
+                <div class="floor-controls" id="floorControls">
+                    <button class="floor-btn active" data-floor="1" onclick="changeFloor(1)">Floor 1</button>
+                    <button class="floor-btn" data-floor="2" onclick="changeFloor(2)">Floor 2</button>
+                    <button class="floor-btn" data-floor="3" onclick="changeFloor(3)">Floor 3</button>
+                    <button class="floor-btn" data-floor="4" onclick="changeFloor(4)">Floor 4</button>
+                    <button class="floor-btn" data-floor="5" onclick="changeFloor(5)">Floor 5</button>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div class="canvas-wrapper">
+                    <img id="floorPlan" src="floorplans/floor_1.png" alt="Building Floor Plan">
+                    <canvas id="navCanvas"></canvas>
+                </div>
+            </div>
         </div>
     </div>
-
 
     <script src="data.js"></script>
     <script src="app.js"></script>
 </body>
-
 </html>
